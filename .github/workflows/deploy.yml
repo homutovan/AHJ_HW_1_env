@@ -26,18 +26,19 @@ jobs:
       run: yarn test && yarn test
 
     - name: build
-      run: npm run build
+      run: yarn build
 
     - name: deploy
       run: |
         git config --global user.email homutovan@live.com
         git config --global user.name "Git Actions"
         git checkout -b deploy
+        rm -rf !(dist)
         git add -f ./dist/*
         if [ -z "$(git status --porcelain)" ]; then
           echo "No changes to commit"
         else
-        $DATE=date
+        DATE=date
         $DATE > .version
         git add .version
         git mv -f ./dist/* .
