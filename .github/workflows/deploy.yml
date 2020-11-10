@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 
 jobs:
-  lint:
+  deploy:
 
     runs-on: ubuntu-latest
 
@@ -23,7 +23,7 @@ jobs:
       run: yarn install
 
     - name: test
-      run: yarn test && yarn test
+      run: yarn lint && yarn test
 
     - name: build
       run: yarn build
@@ -33,7 +33,7 @@ jobs:
         git config --global user.email homutovan@live.com
         git config --global user.name "Git Actions"
         git checkout -b deploy
-        rm -rf !(dist)
+        ls | grep -v dist | xargs rm -rfv
         git add -f ./dist/*
         if [ -z "$(git status --porcelain)" ]; then
           echo "No changes to commit"
